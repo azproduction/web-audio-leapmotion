@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "leapjs": "^0.6.4"
+    "leapjs": "^0.6.4",
+    "leapjs-plugins": "^0.1.11",
+    "three": "^0.72.0"
   },
   "devDependencies": {
     "babel-core": "^5.8.25",
@@ -13,7 +15,7 @@
     "webpack-dev-server": "^1.12.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "mkdir -p .babel-cache && webpack-dev-server --hot --inline"
   },
   "repository": {
     "type": "git",
@@ -23,9 +25,6 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/azproduction/web-audio-leapmotion/issues"
-  },
-  "scripts": {
-    "start": "webpack-dev-server --hot --inline"
   },
   "homepage": "https://github.com/azproduction/web-audio-leapmotion#readme"
 }

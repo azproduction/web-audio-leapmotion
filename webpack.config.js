@@ -9,14 +9,16 @@ module.exports = {
     publicPath: '/build/',
     filename: '[name].js'
   },
-  loaders: [
-    {
-      test: /\.js$/,
-      exclude: /(node_modules|bower_components)/,
-      loader: 'babel-loader',
-      query: {
-        cacheDirectory: path.resolve(__dirname, '.babel-cache')
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        loader: 'babel-loader',
+        query: {
+          cacheDirectory: path.resolve(__dirname, '.babel-cache')
+        }
       }
-    }
-  ]
+    ]
+  }
 };

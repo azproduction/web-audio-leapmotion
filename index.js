@@ -1,1 +1,1 @@
-console.log('it works');
+require('./src/hands.js');
