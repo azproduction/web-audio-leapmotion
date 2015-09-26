@@ -4,19 +4,19 @@ let audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
 let hands = {
   left: [
-    new Sound(audioContext),
-    new Sound(audioContext),
-    new Sound(audioContext),
-    new Sound(audioContext),
-    new Sound(audioContext)
+    new Sound('/samples/korg/glitch1.wav', audioContext),
+    new Sound('/samples/korg/glitch1.wav', audioContext),
+    new Sound('/samples/korg/glitch1.wav', audioContext),
+    new Sound('/samples/korg/glitch1.wav', audioContext),
+    new Sound('/samples/korg/glitch1.wav', audioContext),
   ],
 
   right: [
-    new Sound(audioContext),
-    new Sound(audioContext),
-    new Sound(audioContext),
-    new Sound(audioContext),
-    new Sound(audioContext)
+    new Sound('/samples/korg/glitch2.wav', audioContext),
+    new Sound('/samples/korg/glitch2.wav', audioContext),
+    new Sound('/samples/korg/glitch2.wav', audioContext),
+    new Sound('/samples/korg/glitch2.wav', audioContext),
+    new Sound('/samples/korg/glitch2.wav', audioContext),
   ]
 };
 
@@ -24,10 +24,10 @@ Leap.loop({
     hand(hand) {
       hand.fingers.forEach((finger) => {
         // -300/300, 0/450, -250/250
-        let [volume, freq] = finger.tipPosition;
+        let volume = finger.tipPosition[1];
         let sound = hands[hand.type][finger.type];
 
-        volume = (volume + 300) / 600;
+        volume = volume / 450;
         if (volume < 0) {
           volume = 0;
         }
@@ -36,17 +36,7 @@ Leap.loop({
           volume = 1;
         }
 
-        freq = freq / 450;
-        if (freq < 0) {
-          freq = 0;
-        }
-
-        if (freq > 1) {
-          freq = 1;
-        }
-
         sound.setVolume(volume);
-        sound.setFrequency(freq);
       });
     }
   })
