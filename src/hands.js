@@ -2,24 +2,6 @@ import Sound from './sound';
 import {stopAnimation, startAnimation} from './terrain';
 
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-//
-//let hands = {
-//  left: [
-//    new Sound('/samples/korg/glitch1.wav', audioContext),
-//    new Sound('/samples/korg/glitch1.wav', audioContext),
-//    new Sound('/samples/korg/glitch1.wav', audioContext),
-//    new Sound('/samples/korg/glitch1.wav', audioContext),
-//    new Sound('/samples/korg/glitch1.wav', audioContext)
-//  ],
-//
-//  right: [
-//    new Sound('/samples/korg/glitch2.wav', audioContext),
-//    new Sound('/samples/korg/glitch2.wav', audioContext),
-//    new Sound('/samples/korg/glitch2.wav', audioContext),
-//    new Sound('/samples/korg/glitch2.wav', audioContext),
-//    new Sound('/samples/korg/glitch2.wav', audioContext)
-//  ]
-//};
 
 const sounds = [];
 const SAMPLES = 36;
@@ -27,9 +9,6 @@ const SAMPLES = 36;
 for (let i = 1; i <= SAMPLES; i++) {
   sounds[i] = new Sound(`/samples/korg/glitch${i}.wav`, audioContext);
 }
-//
-//const leftHandSound = null;
-//const rightHandSound = null;
 
 let handSounds = {
   left: null,
@@ -90,9 +69,7 @@ Leap.loop({
       handSounds[hand.type] = nextSample;
     }
   })
-  .use('riggedHand', {
-    offset: new THREE.Vector3(0, -10, 0)
-  })
+  .use('riggedHand')
   .use('handEntry')
   .on('handLost', (hand) => {
     handsPresence[hand.type] = false;
