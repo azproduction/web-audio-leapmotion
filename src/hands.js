@@ -10,6 +10,8 @@ for (let i = 1; i <= SAMPLES; i++) {
   sounds[i] = new Sound(`/samples/korg/glitch${i}.wav`, audioContext);
 }
 
+sounds.sort(() => Math.round(Math.random()) - 0.5);
+
 let handSounds = {
   left: null,
   right: null
