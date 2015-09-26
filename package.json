@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/azproduction/web-audio-leapmotion/issues"
   },
+  "scripts": {
+    "start": "webpack-dev-server --hot --inline"
+  },
   "homepage": "https://github.com/azproduction/web-audio-leapmotion#readme"
 }
