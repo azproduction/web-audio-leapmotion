@@ -1,4 +1,5 @@
 import Sound from './sound';
+import {stopAnimation, startAnimation} from './terrain';
 
 let audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -19,6 +20,19 @@ let hands = {
     new Sound(audioContext)
   ]
 };
+
+let handsPresence = {
+  right: false,
+  left: false
+};
+
+function handPresenceChange() {
+  if (handsPresence.right || handsPresence.left) {
+    startAnimation();
+  } else {
+    stopAnimation();
+  }
+}
 
 Leap.loop({
     hand(hand) {
@@ -55,24 +69,18 @@ Leap.loop({
   })
   .use('handEntry')
   .on('handLost', (hand) => {
-    //if (hand.type !== 'right') {
-    //  return;
-    //}
-    //
-    //sound.stop();
-    hands[hand.type].forEach((sound) => {
-      sound.stop();
-    });
+    //hands[hand.type].forEach((sound) => {
+    //  sound.stop();
+    //});
+    handsPresence[hand.type] = false;
+    handPresenceChange();
   })
   .on('handFound', (hand) => {
-    //if (hand.type !== 'right') {
-    //  return;
-    //}
-    //
-    //sound.play();
-    hands[hand.type].forEach((sound) => {
-      sound.play();
-    });
+    //hands[hand.type].forEach((sound) => {
+    //  sound.play();
+    //});
+    handsPresence[hand.type] = true;
+    handPresenceChange();
   })
   /*.use('playback', {
     recording: './modules/left-or-right-77fps.json.lz',
