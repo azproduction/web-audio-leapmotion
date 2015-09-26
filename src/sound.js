@@ -42,8 +42,23 @@ export default class Sound {
     }
   }
 
+  stopGradually(ms) {
+    if (this.isPlaying) {
+      this.player.stop(this.audioContext.currentTime + ms / 1000);
+      this.gainNode.gain.linearRampToValueAtTime(
+        0,
+        this.audioContext.currentTime + ms / 1000
+      );
+      this.isPlaying = false;
+    }
+  }
+
   setVolume(volume) {
-    this.gainNode.gain.value = MIN_VOL + volume * (MAX_VOL - MIN_VOL);
+    //this.gainNode.gain.value = MIN_VOL + volume * (MAX_VOL - MIN_VOL);
+    this.gainNode.gain.linearRampToValueAtTime(
+      MIN_VOL + volume * (MAX_VOL - MIN_VOL),
+      this.audioContext.currentTime + 0.1
+    );
   }
 
 }
