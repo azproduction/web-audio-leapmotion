@@ -1,40 +1,49 @@
-const MIN_FREQ = 3000;
-const MAX_FREQ = 6000;
-const MIN_VOL = 0.001;
-const MAX_VOL = 0.02;
+const MIN_VOL = 0.0001;
+const MAX_VOL = 0.1;
 
 export default class Sound {
 
-  constructor(audioContext) {
+  constructor(url, audioContext) {
     this.audioContext = audioContext;
     this.oscillator = this.audioContext.createOscillator();
     this.gainNode = this.audioContext.createGain();
-    this.oscillator.connect(this.gainNode);
-
-    this.oscillator.type = 'square';
-    this.oscillator.frequency.value = MIN_FREQ; // value in hertz
-    this.oscillator.detune.value = 100; // value in cents
-    this.oscillator.start(0);
-    this.oscillator.onended = function() {
-      console.log('Your tone has now stopped playing!');
-    };
+    this.gainNode.connect(this.audioContext.destination);
+    this.samplePromise = this.fetch(url);
     this.gainNode.gain.value = MIN_VOL;
   }
 
+  fetch(url) {
+    return fetch(url).then((response) => {
+      return response.arrayBuffer()
+    }).then((arrayBuffer) => {
+      return new Promise((resolve) => {
+        this.audioContext.decodeAudioData(arrayBuffer, resolve);
+      });
+    })
+  }
+
   play() {
-    this.gainNode.connect(this.audioContext.destination);
+    if (!this.isPlaying) {
+      this.samplePromise.then((buffer) => {
+        this.isPlaying = true;
+        this.player = this.audioContext.createBufferSource();
+        this.player.buffer = buffer;
+        this.player.loop = true;
+        this.player.connect(this.gainNode);
+        this.player.start(0);
+      });
+    }
   }
 
   stop() {
-    this.gainNode.disconnect(this.audioContext.destination);
+    if (this.isPlaying) {
+      this.player.stop(0);
+      this.isPlaying = false;
+    }
   }
 
   setVolume(volume) {
     this.gainNode.gain.value = MIN_VOL + volume * (MAX_VOL - MIN_VOL);
-  }
-
-  setFrequency(frequency) {
-    this.oscillator.frequency.value = MIN_FREQ + frequency * (MAX_FREQ - MIN_FREQ);
   }
 
 }
