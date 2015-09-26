@@ -1,1 +1,1 @@
-require('./src/hands.js');
+import './src/hands';

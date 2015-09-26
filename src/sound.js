@@ -5,8 +5,8 @@ const MAX_VOL = 0.02;
 
 export default class Sound {
 
-  constructor() {
-    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  constructor(audioContext) {
+    this.audioContext = audioContext;
     this.oscillator = this.audioContext.createOscillator();
     this.gainNode = this.audioContext.createGain();
     this.oscillator.connect(this.gainNode);
@@ -17,7 +17,7 @@ export default class Sound {
     this.oscillator.start(0);
     this.oscillator.onended = function() {
       console.log('Your tone has now stopped playing!');
-    }
+    };
     this.gainNode.gain.value = MIN_VOL;
   }
 
